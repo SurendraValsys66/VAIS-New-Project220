@@ -128,38 +128,60 @@ export const ElementStylePanel: React.FC<ElementStylePanelProps> = ({
     onChange: (value: string) => void;
     type?: string;
     placeholder?: string;
-  }) => (
-    <div className="space-y-2 px-4 py-3 border-b border-gray-100">
-      <label className="text-xs font-bold text-gray-700">{label}</label>
-      {type === "color" ? (
-        <div className="flex gap-2 items-center">
-          <input
-            type="color"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer"
-          />
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-xs font-mono"
-          />
-        </div>
-      ) : (
-        <div className="flex items-center gap-2">
-          <Input
-            type={type}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={placeholder}
-            className="h-9 text-sm"
-          />
-          {type === "number" && <span className="text-xs text-gray-500">px</span>}
-        </div>
-      )}
-    </div>
-  );
+  }) => {
+    const handleNumberKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (type !== "number") return;
+
+      const currentValue = Number(value) || 0;
+      let newValue = currentValue;
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        newValue = currentValue + 1;
+      } else if (e.key === "ArrowDown") {
+        e.preventDefault();
+        newValue = Math.max(0, currentValue - 1);
+      }
+
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        onChange(String(newValue));
+      }
+    };
+
+    return (
+      <div className="space-y-2 px-4 py-3 border-b border-gray-100">
+        <label className="text-xs font-bold text-gray-700">{label}</label>
+        {type === "color" ? (
+          <div className="flex gap-2 items-center">
+            <input
+              type="color"
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              className="w-12 h-10 rounded-lg border border-gray-200 cursor-pointer"
+            />
+            <input
+              type="text"
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-xs font-mono"
+            />
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <Input
+              type={type}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              onKeyDown={handleNumberKeyDown}
+              placeholder={placeholder}
+              className="h-9 text-sm"
+            />
+            {type === "number" && <span className="text-xs text-gray-500">px</span>}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   if (!component) {
     return (
