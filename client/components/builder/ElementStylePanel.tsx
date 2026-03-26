@@ -134,31 +134,33 @@ export const ElementStylePanel: React.FC<ElementStylePanelProps> = ({
     const handleNumberKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (type !== "number") return;
 
-      const currentValue = Number(value) || 0;
-      let newValue = currentValue;
-      let shouldUpdate = false;
-
-      if (e.key === "ArrowUp") {
+      // Only prevent default for arrow keys
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
         e.preventDefault();
-        newValue = currentValue + 1;
-        shouldUpdate = true;
-      } else if (e.key === "ArrowDown") {
-        e.preventDefault();
-        newValue = Math.max(0, currentValue - 1);
-        shouldUpdate = true;
-      }
+        e.stopPropagation();
 
-      if (shouldUpdate) {
+        const currentValue = Number(value) || 0;
+        let newValue = currentValue;
+
+        if (e.key === "ArrowUp") {
+          newValue = currentValue + 1;
+        } else if (e.key === "ArrowDown") {
+          newValue = Math.max(0, currentValue - 1);
+        }
+
         onChange(String(newValue));
+
+        // Re-focus the input after the change
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 0);
       }
     };
 
     const handleNumberFocus = (e: React.FocusEvent<HTMLInputElement>) => {
       if (type !== "number") return;
       // Select all text when focused so you can start typing immediately
-      setTimeout(() => {
-        e.target.select();
-      }, 0);
+      e.target.select();
     };
 
     return (
