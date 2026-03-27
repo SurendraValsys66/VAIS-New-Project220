@@ -345,12 +345,15 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
       return wrapWithControls(
         <div className="p-4 h-full flex items-center" style={getComponentStyles()}>
           <h2
-            className="text-3xl font-bold w-full leading-tight"
+            className="text-3xl font-bold w-full leading-tight focus:outline-none focus:ring-0"
             contentEditable
             suppressContentEditableWarning
             style={{
               color: component.textColor || "#111827",
               fontSize: component.fontSize ? `${component.fontSize}${component.fontSizeUnit || "px"}` : undefined,
+              outline: "none !important",
+              border: "none !important",
+              boxShadow: "none !important",
             }}
           >
             Catchy Heading
