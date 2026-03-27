@@ -181,6 +181,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
     const containerClasses = cn(
       "relative group transition-all rounded-lg p-3",
+      "z-0",
       borderClasses
     );
 
@@ -189,7 +190,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
       return (
         <div
-          className="absolute top-1 right-1 flex items-center gap-1 bg-white rounded-md shadow-lg border border-valasys-orange/20 z-50 pointer-events-auto"
+          className="absolute top-1 right-1 flex items-center gap-1 bg-white rounded-md shadow-lg border border-valasys-orange/20 z-[100] pointer-events-auto"
           onMouseDown={(e) => e.stopPropagation()}
           onClick={(e) => e.stopPropagation()}
         >
@@ -249,7 +250,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             onMouseLeave={onMouseLeave}
             onClick={() => handleElementClick(element.id)}
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-valasys-orange/10 text-valasys-orange text-xs font-bold uppercase tracking-wider pointer-events-none">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-valasys-orange/10 text-valasys-orange text-xs font-bold uppercase tracking-wider pointer-events-none z-10">
               <span
                 contentEditable={isSelected}
                 suppressContentEditableWarning
@@ -260,7 +261,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 onClick={(e) => {
                   if (isSelected) e.stopPropagation();
                 }}
-                className={isSelected ? "focus:outline-none focus:ring-0 pointer-events-auto" : ""}
+                className={cn(
+                  "z-10",
+                  isSelected ? "focus:outline-none focus:ring-0 pointer-events-auto" : ""
+                )}
               >
                 {element.content}
               </span>
@@ -289,7 +293,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 if (isSelected) e.stopPropagation();
               }}
               className={cn(
-                "text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-none max-w-4xl",
+                "text-4xl lg:text-6xl font-black text-gray-900 tracking-tight leading-none max-w-4xl z-10",
                 isSelected ? "focus:outline-none focus:ring-0 pointer-events-auto" : ""
               )}
             >
@@ -319,7 +323,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 if (isSelected) e.stopPropagation();
               }}
               className={cn(
-                "text-lg text-gray-600 max-w-2xl leading-relaxed",
+                "text-lg text-gray-600 max-w-2xl leading-relaxed z-10",
                 isSelected ? "focus:outline-none focus:ring-0 pointer-events-auto" : ""
               )}
             >
@@ -363,7 +367,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       className="relative overflow-hidden bg-white p-12 lg:p-24 flex flex-col items-center text-center gap-6 rounded-3xl border border-gray-100"
       style={getComponentStyles()}
     >
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-valasys-orange/5 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-valasys-orange/5 to-transparent pointer-events-none z-0" />
       {heroElements.map((element) => renderElementContent(element))}
     </div>
   );
