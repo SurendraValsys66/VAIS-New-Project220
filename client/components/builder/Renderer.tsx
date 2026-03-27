@@ -460,10 +460,14 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
             suppressContentEditableWarning
             onFocus={(e) => {
               isFocusedRef.current = true;
-              // Clear default text when user focuses
-              if (isDefaultTextRef.current && e.currentTarget.textContent === "Get Started") {
-                e.currentTarget.textContent = "";
-              }
+              // Select all text when focusing (instead of clearing)
+              setTimeout(() => {
+                const selection = window.getSelection();
+                const range = document.createRange();
+                range.selectNodeContents(e.currentTarget);
+                selection?.removeAllRanges();
+                selection?.addRange(range);
+              }, 0);
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -487,7 +491,7 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
                 isDefaultTextRef.current = false;
               }
             }}
-            className="px-8 py-6 text-lg font-semibold rounded-xl shadow-lg focus:outline-none focus:ring-0"
+            className="px-8 py-6 text-lg font-semibold rounded-xl shadow-lg focus:outline-none focus:ring-0 whitespace-nowrap"
             style={{
               backgroundColor: component.backgroundColor || "#ea580c",
               color: component.textColor || "#ffffff",
@@ -502,6 +506,7 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
               border: "none !important",
               boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1) !important",
               cursor: "pointer",
+              minWidth: "fit-content",
             }}
           />
         </div>,
