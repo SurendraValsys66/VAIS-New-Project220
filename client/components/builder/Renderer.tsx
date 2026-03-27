@@ -451,13 +451,14 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
             ref={buttonRef}
             contentEditable
             suppressContentEditableWarning
-            onFocus={(e) => {
-              isFocusedRef.current = true;
-              const currentText = e.currentTarget.textContent || "";
-              // Clear default text when user focuses to edit
-              if (currentText === "Get Started" && !component.contentText) {
+            onMouseDown={(e) => {
+              // Clear the text as soon as user clicks
+              if (e.currentTarget.textContent === "Get Started" && !component.contentText) {
                 e.currentTarget.textContent = "";
               }
+            }}
+            onFocus={(e) => {
+              isFocusedRef.current = true;
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
