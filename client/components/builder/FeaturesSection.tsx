@@ -32,6 +32,8 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({
     element: "icon" | "title" | "description";
   } | null>(null);
   const [editingFeatureId, setEditingFeatureId] = React.useState<string | null>(null);
+  const [hoveredHeaderElement, setHoveredHeaderElement] = React.useState<"heading" | "description" | null>(null);
+  const [focusedHeaderElement, setFocusedHeaderElement] = React.useState<"heading" | "description" | null>(null);
 
   const features: Feature[] = (block.properties.features || []) as Feature[];
 
@@ -166,22 +168,44 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({
         {/* Header */}
         <div className="text-center space-y-2">
           <h2
-            className="text-3xl font-bold text-gray-900 cursor-text hover:bg-gray-50 p-2 rounded"
+            className={cn(
+              "text-3xl font-bold text-gray-900 cursor-text p-2 rounded transition-all",
+              focusedHeaderElement === "heading"
+                ? "border-2 border-solid border-valasys-orange bg-valasys-orange/5"
+                : hoveredHeaderElement === "heading"
+                ? "border-2 border-dashed border-valasys-orange bg-gray-50"
+                : "border-2 border-transparent hover:bg-gray-50"
+            )}
             contentEditable
             suppressContentEditableWarning
             onBlur={(e) => {
               handleUpdateBlock({ heading: e.currentTarget.textContent });
+              setFocusedHeaderElement(null);
             }}
+            onFocus={() => setFocusedHeaderElement("heading")}
+            onMouseEnter={() => setHoveredHeaderElement("heading")}
+            onMouseLeave={() => setHoveredHeaderElement(null)}
           >
             {block.properties.heading || "Why Choose Us"}
           </h2>
           <p
-            className="text-gray-600 cursor-text hover:bg-gray-50 p-2 rounded"
+            className={cn(
+              "text-gray-600 cursor-text p-2 rounded transition-all",
+              focusedHeaderElement === "description"
+                ? "border-2 border-solid border-valasys-orange bg-valasys-orange/5"
+                : hoveredHeaderElement === "description"
+                ? "border-2 border-dashed border-valasys-orange bg-gray-50"
+                : "border-2 border-transparent hover:bg-gray-50"
+            )}
             contentEditable
             suppressContentEditableWarning
             onBlur={(e) => {
               handleUpdateBlock({ description: e.currentTarget.textContent });
+              setFocusedHeaderElement(null);
             }}
+            onFocus={() => setFocusedHeaderElement("description")}
+            onMouseEnter={() => setHoveredHeaderElement("description")}
+            onMouseLeave={() => setHoveredHeaderElement(null)}
           >
             {block.properties.description || "Discover the key features that make our product special"}
           </p>
