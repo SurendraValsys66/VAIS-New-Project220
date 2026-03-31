@@ -917,21 +917,18 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
       const isDefaultTextRef = React.useRef(false);
       const isFirstKeyPressRef = React.useRef(true);
 
-      React.useEffect(() => {
-        if (buttonRef.current && !isFocusedRef.current) {
-          const newText = component.contentText || "Get Started";
-          if (buttonRef.current.textContent !== newText) {
-            buttonRef.current.textContent = newText;
-            isDefaultTextRef.current = !component.contentText;
-            isFirstKeyPressRef.current = true;
-          }
-        }
-      }, [component.contentText]);
-
       return wrapWithControls(
         <div className="p-4 h-full flex items-center justify-start">
           <button
-            ref={buttonRef}
+            ref={(el) => {
+              buttonRef.current = el;
+              if (el && !el.hasAttribute("data-initialized")) {
+                el.setAttribute("data-initialized", "true");
+                el.textContent = component.contentText || "Get Started";
+                isDefaultTextRef.current = !component.contentText;
+                isFirstKeyPressRef.current = true;
+              }
+            }}
             contentEditable
             suppressContentEditableWarning
             style={{ direction: "ltr" }}
@@ -949,14 +946,15 @@ export const ComponentRenderer: React.FC<RendererProps> = ({
               }, 0);
             }}
             onKeyDown={(e) => {
-              // Clear default text on first keystroke
-              if (isFirstKeyPressRef.current && isDefaultTextRef.current && e.key !== "Enter") {
-                e.currentTarget.textContent = "";
-                isFirstKeyPressRef.current = false;
-              }
               if (e.key === "Enter") {
                 e.preventDefault();
                 (e.currentTarget as any).blur();
+              }
+            }}
+            onBeforeInput={(e: any) => {
+              // Replace selected default text with new input naturally
+              if (isFirstKeyPressRef.current && isDefaultTextRef.current) {
+                isFirstKeyPressRef.current = false;
               }
             }}
             onInput={(e) => {
