@@ -365,47 +365,70 @@ export const FeaturesSection: React.FC<FeaturesSectionProps> = ({
           {headerElements.map((element) => {
             const isHeading = element.type === "heading";
             const TagName = isHeading ? "h2" : "p";
+            const isEditingHeaderElement = localSelectedHeaderElement === element.id;
+            const fallbackText = isHeading ? "Why Choose Us" : "Discover the key features that make our product special";
 
             return (
               <div key={element.id} className="relative">
-                <TagName
-                  className={cn(
-                    isHeading
-                      ? "text-3xl font-bold text-gray-900 cursor-text p-2 rounded transition-all outline-none"
-                      : "text-gray-600 cursor-text p-2 rounded transition-all outline-none",
-                    localSelectedHeaderElement === element.id
-                      ? "border-2 border-solid border-valasys-orange"
-                      : hoveredHeaderElement === element.id
-                      ? "border-2 border-dashed border-valasys-orange bg-gray-50"
-                      : "border-2 border-transparent hover:bg-gray-50"
-                  )}
-                  contentEditable
-                  suppressContentEditableWarning
-                  onInput={(e) => {
-                    handleUpdateHeaderElement(element.id, e.currentTarget.textContent || "");
-                  }}
-                  onBlur={(e) => {
-                    handleUpdateHeaderElement(element.id, e.currentTarget.textContent || "");
-                    if (!isClickingControl) {
-                      setLocalSelectedHeaderElement(null);
-                      onSelect?.(null);
-                    }
-                  }}
-                  onFocus={(e) => {
-                    setLocalSelectedHeaderElement(element.id);
-                    onSelect?.({ type: element.type, id: element.id });
-                  }}
-                  onMouseEnter={() => setHoveredHeaderElement(element.id)}
-                  onMouseLeave={() => setHoveredHeaderElement(null)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (localSelectedHeaderElement === element.id) return;
-                    setLocalSelectedHeaderElement(element.id);
-                    onSelect?.({ type: element.type, id: element.id });
-                  }}
-                >
-                  {element.text || (isHeading ? "Why Choose Us" : "Discover the key features that make our product special")}
-                </TagName>
+                {isEditingHeaderElement ? (
+                  isHeading ? (
+                    <Input
+                      value={element.text}
+                      onChange={(e) => handleUpdateHeaderElement(element.id, e.target.value)}
+                      onBlur={() => {
+                        if (!isClickingControl) {
+                          setLocalSelectedHeaderElement(null);
+                          onSelect?.(null);
+                        }
+                      }}
+                      onFocus={() => onSelect?.({ type: element.type, id: element.id })}
+                      onClick={(e) => e.stopPropagation()}
+                      className={cn(
+                        "h-auto w-full border-2 border-solid border-valasys-orange bg-transparent px-2 py-1 text-center text-3xl font-bold text-gray-900 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                        isHeading && "tracking-tight"
+                      )}
+                      style={{ direction: "ltr" }}
+                      autoFocus
+                    />
+                  ) : (
+                    <Textarea
+                      value={element.text}
+                      onChange={(e) => handleUpdateHeaderElement(element.id, e.target.value)}
+                      onBlur={() => {
+                        if (!isClickingControl) {
+                          setLocalSelectedHeaderElement(null);
+                          onSelect?.(null);
+                        }
+                      }}
+                      onFocus={() => onSelect?.({ type: element.type, id: element.id })}
+                      onClick={(e) => e.stopPropagation()}
+                      className="min-h-0 w-full resize-none border-2 border-solid border-valasys-orange bg-transparent px-2 py-1 text-center text-gray-600 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                      rows={3}
+                      style={{ direction: "ltr" }}
+                      autoFocus
+                    />
+                  )
+                ) : (
+                  <TagName
+                    className={cn(
+                      isHeading
+                        ? "text-3xl font-bold text-gray-900 cursor-text p-2 rounded transition-all outline-none"
+                        : "text-gray-600 cursor-text p-2 rounded transition-all outline-none",
+                      hoveredHeaderElement === element.id
+                        ? "border-2 border-dashed border-valasys-orange bg-gray-50"
+                        : "border-2 border-transparent hover:bg-gray-50"
+                    )}
+                    onMouseEnter={() => setHoveredHeaderElement(element.id)}
+                    onMouseLeave={() => setHoveredHeaderElement(null)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setLocalSelectedHeaderElement(element.id);
+                      onSelect?.({ type: element.type, id: element.id });
+                    }}
+                  >
+                    {element.text || fallbackText}
+                  </TagName>
+                )}
                 {renderHeaderControls(element.id)}
               </div>
             );
