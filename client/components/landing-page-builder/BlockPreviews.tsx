@@ -436,8 +436,14 @@ export const PricingBlockPreview: React.FC<BlockPreviewProps> = ({
                   ? "3px dotted #FF6A00"
                   : "1px solid #e5e7eb",
               }}
-              onMouseEnter={() => setHoveredTierId(tier.id)}
-              onMouseLeave={() => setHoveredTierId(null)}
+              onMouseEnter={(e) => {
+                e.stopPropagation();
+                setHoveredTierId(tier.id);
+              }}
+              onMouseLeave={(e) => {
+                e.stopPropagation();
+                setHoveredTierId(null);
+              }}
               onClick={(e) => handleTierClick(e, tier.id)}
             >
               <h3 className="text-lg font-semibold mb-2">{tier.name}</h3>
