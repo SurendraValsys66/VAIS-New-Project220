@@ -34,6 +34,18 @@ export default function LandingPages() {
       updatedAt: "2024-03-19T15:30:00Z",
       templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fce37966ddf2b45dca81b913547a9f779?format=webp&width=800&height=1200"
     },
+    {
+      id: "3",
+      name: "E-Commerce Store",
+      updatedAt: "2024-03-18T12:00:00Z",
+      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fc791842089ab4e8a8223fa1c37011b01?format=webp&width=800&height=1200"
+    },
+    {
+      id: "4",
+      name: "Digital Agency",
+      updatedAt: "2024-03-17T09:15:00Z",
+      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fce37966ddf2b45dca81b913547a9f779?format=webp&width=800&height=1200"
+    },
   ]);
 
   const handleCreateNew = () => {
@@ -118,7 +130,7 @@ export default function LandingPages() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {pages.map((page) => (
                 <div
                   key={page.id}
