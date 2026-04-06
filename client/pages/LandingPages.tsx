@@ -36,15 +36,15 @@ export default function LandingPages() {
     },
     {
       id: "3",
-      name: "E-Commerce Store",
+      name: "Black Friday Sale",
       updatedAt: "2024-03-18T12:00:00Z",
-      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fc791842089ab4e8a8223fa1c37011b01?format=webp&width=800&height=1200"
+      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2F122aa3a978f347f6ae8013a8201b7046?format=webp&width=800&height=1200"
     },
     {
       id: "4",
-      name: "Digital Agency",
+      name: "Sports Club",
       updatedAt: "2024-03-17T09:15:00Z",
-      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fce37966ddf2b45dca81b913547a9f779?format=webp&width=800&height=1200"
+      templateImage: "https://cdn.builder.io/api/v1/image/assets%2Fddd1f2eefed243f880ce4c077bf467dd%2Fa8f973a0ccc04d81a3e1de84669932c9?format=webp&width=800&height=1200"
     },
   ]);
 
@@ -131,6 +131,18 @@ export default function LandingPages() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {/* Create new page button - first position */}
+              <button onClick={handleCreateNew} className="group rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center p-12 hover:border-valasys-orange hover:bg-valasys-orange/5 transition-all gap-4 text-gray-400 hover:text-valasys-orange h-64">
+                <div className="w-16 h-16 rounded-full bg-gray-50 group-hover:bg-valasys-orange/10 flex items-center justify-center transition-colors shadow-inner">
+                  <Plus className="w-8 h-8" />
+                </div>
+                <div className="text-center">
+                  <div className="text-base font-bold">Create New Page</div>
+                  <div className="text-xs font-medium opacity-60">Start with a blank canvas</div>
+                </div>
+              </button>
+
+              {/* Template cards */}
               {pages.map((page) => (
                 <div
                   key={page.id}
@@ -155,16 +167,6 @@ export default function LandingPages() {
                   </div>
                 </div>
               ))}
-
-              <button onClick={handleCreateNew} className="group rounded-3xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center p-12 hover:border-valasys-orange hover:bg-valasys-orange/5 transition-all gap-4 text-gray-400 hover:text-valasys-orange">
-                <div className="w-16 h-16 rounded-full bg-gray-50 group-hover:bg-valasys-orange/10 flex items-center justify-center transition-colors shadow-inner">
-                  <Plus className="w-8 h-8" />
-                </div>
-                <div className="text-center">
-                  <div className="text-base font-bold">Create New Page</div>
-                  <div className="text-xs font-medium opacity-60">Start with a blank canvas</div>
-                </div>
-              </button>
             </div>
           </div>
         </div>
